@@ -4,6 +4,7 @@
 //toshiyuki@unity3d.com (Univerasl RP/HDRP) 
 //https://github.com/unity3d-jp/UnityChanToonShaderVer2_Project
 //(C)Unity Technologies Japan/UCL
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -2775,3 +2776,4 @@ namespace UnityEditor.Rendering.Universal.Toon.ShaderGUI
         }
     } // End of UTS2GUI2
 }// End of namespace UnityChan
+#endif

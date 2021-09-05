@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine.Rendering;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,20 +19,40 @@ public class GameManager : MonoBehaviour
 
     public bool isDrawing;
 
+    public Button Reset;
+    public Button Drawing;
+
     private void Start()
     {
         Cursor.visible = false;
 
         if (brushCamera != null)
             brushCamera.gameObject.SetActive(false);
-    }
 
+        Reset.onClick.AddListener(()=> 
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        });
+        Drawing.onClick.AddListener(() =>
+        {
+            SetDrawingMode(!isDrawing);
+        });
+    }
     void Update()
     {
         Vector3 temp = Input.mousePosition;
         temp.z = .4f;
-        if(isDrawing)
-            brush.position = Vector3.Lerp(brush.position,Camera.main.ScreenToWorldPoint(temp),.5f);
+        if (isDrawing)
+        {
+            //if ((Drawing.transform as RectTransform).rect.Contains(temp))
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                //Debug.LogError(temp);
+                return;
+            }
+            brush.position = Vector3.Lerp(brush.position, Camera.main.ScreenToWorldPoint(temp), .5f);
+        }
+            
         ClampPosition(brush);
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -87,7 +108,7 @@ public class GameManager : MonoBehaviour
         drawingRenderer.transform.GetChild(0).gameObject.SetActive(state);
         brushCamera.gameObject.SetActive(state);
 
-        //effects
+        //effects 后处理
         float effectAmount = isDrawing ? 1 : 0;
         drawingRenderer.transform.DOLocalRotate(new Vector3(isDrawing ? 60 : 90, 180,0), .5f, RotateMode.Fast).SetUpdate(true);
         DOVirtual.Float(grainVolume.weight, effectAmount, .5f, (x) => grainVolume.weight = x).SetUpdate(true);

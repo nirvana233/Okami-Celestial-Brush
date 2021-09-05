@@ -58,6 +58,7 @@ public class Demo : MonoBehaviour {
 
 		if (!gameManager.isDrawing)
 			return;
+		if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
 
 		if (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer) {
 			if (Input.touchCount > 0) {
@@ -130,7 +131,7 @@ public class Demo : MonoBehaviour {
 		}
 
 		Camera.main.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
-
+		Debug.Log(gestureResult.GestureClass);
 		if (gestureResult.GestureClass == "cherrybomb")
 		{
 			Transform b = Instantiate(spherePrefab, gestureLinesRenderer[0].bounds.center, Quaternion.identity); ;
