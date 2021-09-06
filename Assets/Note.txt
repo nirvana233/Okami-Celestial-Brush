@@ -1,1 +1,12 @@
 Note
+
+1.羊皮纸效果是用ColorRamp Shader，和rendertexture渲染出来的图片，和其他渐变的羊皮纸图片叠加出来的。
+一个相机正常渲染游戏画面，renderTexture由另一个差不多的相机渲染。
+渲染得到的贴图放在一个Plane上，Plane在Main Camera Go上面，plane放在main cam的前面合适位置，看上去和直接渲染出来的大小位置差不多
+2.毛笔是模型,也是用了blend tree做动画，2d的
+3.图像识别也是插件，感觉没之前做的Draw Duel好用，没仔细去看
+4.笔迹和笔分别是各自相机渲染的，应该可以只用一个就行
+5.笔的位置限制，转换成视图坐标，限制成01，再转回去，和拖拽3d物体是一个道理
+https://www.cnblogs.com/springword/p/6683549.html
+6.画出来的线是3d的，位置离相机远些。
+用SphereCast发射线去检测是否碰撞到树了，碰撞到就把树切断（本来就是断的2个，激活rigidbody就行）
